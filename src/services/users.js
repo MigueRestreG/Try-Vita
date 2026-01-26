@@ -60,3 +60,7 @@ export const updateUser = async (id) => {
 
     return "usuario actualizado con exito";
 }
+
+// npm run dev = Incializar vite
+// npx json-server --watch db.json --port 3000 = incicializar db.json
+// json-server --watch db.json --port 3000 
