@@ -1,5 +1,6 @@
 import './styles/style.css'
 import {routes} from "./constants/routes.js"
+import { getUsers, getUsersById } from './services/users.js';
 
 // Rutas públicas (sin login)
 const publicRoutes = ["/login"];
@@ -57,7 +58,14 @@ async function navigate(pathname) {
   }
 }
 
-function initLogin() {
+async function initLogin() {
+
+  const result = await getUsers()
+  console.log(result);
+
+  const user3 = await getUsersById(3)
+  console.log(user3);
+
   let userInput = document.getElementById("userInput");
   let passInput = document.getElementById("passInput");
   let buttonInput = document.getElementById("buttonLogin");
