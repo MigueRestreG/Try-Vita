@@ -1,25 +1,18 @@
 {
   "usuarios": [
     {
-      "id": "1",
-      "nombre": "Juan Pérez",
-      "email": "juan@example.com",
-      "edad": 28,
-      "ciudad": "Madrid"
+      "id": "2e02",
+      "name": "asdasd",
+      "email": "kevin@asdasd.com",
+      "age": "48",
+      "city": "Medayork"
     },
     {
-      "id": "3",
-      "nombre": "Miguel Grisales",
-      "email": "miguel@example.com",
-      "edad": 19,
-      "ciudad": "Medellín"
-    },
-    {
-      "id": "2",
-      "nombre": "Sarahi Cruz",
-      "email": "sarahi@example.com",
-      "edad": 18,
-      "ciudad": "Medellín 2"
+      "id": "465c",
+      "name": "asdasd",
+      "email": "sdas@asdasd.com",
+      "age": "15",
+      "city": "asd"
     }
   ],
   "productos": [
@@ -37,13 +30,6 @@
     }
   ],
   "todos": [
-    {
-      "id": "fa5b",
-      "titulo": "Aprender JSON SERVER",
-      "descripcion": "",
-      "completado": false,
-      "fechaCreacion": "2026-01-26"
-    },
     {
       "id": "39da",
       "titulo": "aprender ReactJS",

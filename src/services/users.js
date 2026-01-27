@@ -1,47 +1,63 @@
 export const getUsers = async () => {
-    const data = await fetch("http://localhost:3000/usuarios")
-    const response = await data.json()
+    try {
+        const data = await fetch("http://localhost:3000/usuarios")
+        const response = await data.json()
+        return response;
+    }
 
-    return response;
+    catch (error) {
+        console.error("Error fetching users:", error);;
+    }
 }
 
 export const getUsersById = async (id) => {
-    const data = await fetch(`http://localhost:3000/usuarios/${id}`)
-    const response = await data.json()
+    try {
 
-    return response;
+        if (!id) {
+            throw new Error("ID is required");
+        }
+
+        const data = await fetch(`http://localhost:3000/usuarios/${id}`)
+        const response = await data.json()
+        return response;
+    }
+
+    catch (error) {
+        console.error("Internal Server Error:", error);
+    }
 }
 
 export const deleteUsersById = async (id) => {
-    const data = await fetch(`http://localhost:3000/usuarios/${id}`,{method: 'DELETE'}).then(response => response.json())
-    .then(data => console.log('Usuario eliminado:', data));
+    try{
+        const data = await fetch(`http://localhost:3000/usuarios/${id}`, { method: 'DELETE' })
+        const response = await data.json()
+        return response;
 
-    return "Usuario eliminado";
+    } catch (err) {
+        console.error(err);
+    }
+
 }
 
-export const createUser = async () => {
-    const data = await fetch(`http://localhost:3000/usuarios`,{
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            id: 4,
-            nombre: "Juan Santamaria",
-            email: "juan@example.com",
-            edad: 21,
-            ciudad: "Medellín"
+export const createUser = async (user) => {
+    try {
+        const data = await fetch(`http://localhost:3000/usuarios`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(user)
         })
-        }).then(response => response.json())
-        .then(data => console.log('Registro creado:', data))
-        .catch(error => console.error('Error:', error));
+        const response = await data.json()
+        return response;
 
-
-    return "usuario creado con exito";
+    } catch (err){
+        console.error(err);
+    }
 }
 
 export const updateUser = async (id) => {
-    const data = await fetch(`http://localhost:3000/usuarios/${id}`,{
+    const data = await fetch(`http://localhost:3000/usuarios/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -53,7 +69,7 @@ export const updateUser = async (id) => {
             edad: 21,
             ciudad: "Medellín"
         })
-        }).then(response => response.json())
+    }).then(response => response.json())
         .then(data => console.log('Registro creado:', data))
         .catch(error => console.error('Error:', error));
 

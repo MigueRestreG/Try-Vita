@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Usuarios</title>
+    <link rel="stylesheet" href="../../src/styles/userList.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Mi Lista de Tareas</h1>
+        
+        <div class="input-container">
+            <input 
+                type="text" 
+                id="inputUser" 
+                placeholder="Ingrese el nombre del usuario" 
+                class="todo-input"
+            >
+            <input 
+                type="text" 
+                id="inputEmail" 
+                placeholder="Ingrese el correo del usuario" 
+                class="todo-input"
+            >
+            <input 
+                type="text" 
+                id="inputAge" 
+                placeholder="Ingrese la edad del usuario" 
+                class="todo-input"
+            >
+            <input 
+                type="text" 
+                id="inputCity" 
+                placeholder="Ingrese la ciudad del usuario" 
+                class="todo-input"
+            >
+            <button id="addBtn" class="btn btn-add">Agregar</button>
+        </div>
+
+        <ul id="userList" class="todo-list">
+            <!-- Los todos se cargarán aquí -->
+        </ul>
+
+        <div id="emptyState" class="empty-state">
+            <p>No hay tareas todavía. ¡Crea una nueva!</p>
+        </div>
+    </div>
+
+    <script type="module" src="../../src/main.js"></script>
+</body>
+</html>

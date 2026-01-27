@@ -1,6 +1,6 @@
 import './styles/style.css'
-import {routes} from "./constants/routes.js"
-import { getUsers, getUsersById } from './services/users.js';
+import { routes } from "./constants/routes.js"
+import { createUser, deleteUsersById, getUsers, getUsersById } from './services/users.js';
 import {
   getTodos,
   createTodo,
@@ -58,7 +58,8 @@ async function navigate(pathname) {
     "/home": initHome,
     "/about": initAbout,
     "/contact": initContact,
-    "/todolist": initTodoList
+    "/todolist": initTodoList,
+    "/users": initUsers
   };
 
   if (viewHandlers[allowedRoute]) {
@@ -140,7 +141,52 @@ function initAbout() {
 }
 
 function initContact() {
-  // Lógica específica para la vista contact
+
+  const inputUser = document.getElementById("inputName");
+  const inputEmail = document.getElementById("inputEmail");
+  const inputAge = document.getElementById("inputAge");
+  const inputCity = document.getElementById("inputCity");
+  const createUserBtn = document.getElementById("createUserBtn");
+
+  let name;
+  let email;
+  let age;
+  let city;
+
+  inputUser.addEventListener("input", (e) => {
+    name = e.target.value;
+  });
+
+  inputEmail.addEventListener("input", (e) => {
+    email = e.target.value;
+  });
+
+  inputAge.addEventListener("input", (e) => {
+    age = e.target.value;
+  });
+
+  inputCity.addEventListener("input", (e) => {
+    city = e.target.value;
+  });
+
+  createUserBtn.addEventListener("click", async () => {
+
+    const user = {
+      name: name,
+      email: email,
+      age: age,
+      city: city
+    }
+
+    const response = await createUser(user);
+
+    if (response) {
+      "Usuario creado con exito";
+    } else {
+      "Error al crear el usuario";
+    }
+  })
+
   console.log("Vista Contact cargada");
 }
 
@@ -302,6 +348,129 @@ async function initTodoList() {
 
   // Cargar todos al iniciar la página
   cargarTodos();
+}
+
+async function initUsers() {
+  let users = [];
+
+  const inputUser = document.getElementById("inputUser");
+  const inputEmail = document.getElementById("inputEmail");
+  const inputAge = document.getElementById("inputAge");
+  const inputCity = document.getElementById("inputCity");
+
+
+  const addBtn = document.getElementById("addBtn");
+  const userList = document.getElementById("userList");
+  const emptyState = document.getElementById("emptyState");
+
+  async function cargarUsers() {
+    try {
+      users = await getUsers();
+      renderizarUsers();
+    } catch (error) {
+      console.error("Error cargando usuarios:", error);
+    }
+  }
+
+  // Agregar nuevo todo
+  addBtn.addEventListener("click", agregarUser);
+
+  async function agregarUser() {
+    const userName = inputUser.value.trim();
+    const userEmail = inputEmail.value.trim();
+    const userAge = inputAge.value.trim();
+    const userCity = inputCity.value.trim();
+
+    if (!userName && !userEmail && !userAge && !userCity) {
+      alert("Por favor ingresa valores validos");
+      return;
+    }
+
+    const user = {
+      name: userName,
+      email: userEmail,
+      age: userAge,
+      city: userCity
+    }
+
+    try {
+      const usuarioCreado = await createUser(user);
+      console.log(usuarioCreado);
+      users.push(usuarioCreado);
+      renderizarUsers();
+    } catch (error) {
+      console.error("Error creando todo:", error);
+      alert("Error al crear la tarea");
+    }
+  }
+
+  // Renderizar todos
+  async function renderizarUsers() {
+    userList.innerHTML = "";
+
+    // if (todos.length === 0) {
+    //   emptyState.style.display = "block";
+    //   return;
+    // }
+
+    emptyState.style.display = "none";
+
+    users.forEach((user) => {
+      console.log(user);
+      const li = document.createElement("li");
+      li.className = `todo-item ${user.completado ? "completed" : ""}`;
+      li.innerHTML = `
+        <div class="todo-content">
+        
+          <input 
+            type="checkbox" 
+            class="todo-checkbox" 
+            ${user.completado ? "checked" : ""} 
+            data-id="${user.id}"
+          >
+          <span class="todo-title">${user.name}</span>
+          <span class="todo-title">${user.email}</span>
+          <span class="todo-title">${user.age}</span>
+          <span class="todo-title">${user.city}</span>
+        </div>
+        <div class="todo-actions">
+          <button class="btn btn-edit" data-id="${user.id}">Editar</button>
+          <button class="btn btn-delete" data-id="${user.id}">Eliminar</button>
+        </div>
+      `;
+
+      // Event listeners para los botones
+      const checkbox = li.querySelector(".todo-checkbox");
+      checkbox.addEventListener("change", () => toggleCompletado(user.id));
+
+      const editBtn = li.querySelector(".btn-edit");
+      editBtn.addEventListener("click", () => editarTodo(user.id));
+
+      const deleteBtn = li.querySelector(".btn-delete");
+      deleteBtn.addEventListener("click", () => eliminarUser(user.id));
+
+      userList.appendChild(li);
+    });
+  }
+
+  // Eliminar todo
+  async function eliminarUser(id) {
+    if (!confirm("¿Estás seguro de que deseas eliminar esta tarea?")) {
+      return;
+    }
+
+    try {
+      await deleteUsersById(id);
+      users = users.filter((user) => user.id !== id);
+      renderizarUsers();
+    } catch (error) {
+      console.error("Error eliminando todo:", error);
+      alert("Error al eliminar la tarea");
+    }
+  }
+
+  // Cargar todos al iniciar la página
+  cargarUsers();
 }
 
 // Inicializar la app al cargar
