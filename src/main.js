@@ -427,10 +427,10 @@ async function initUsers() {
             ${user.completado ? "checked" : ""} 
             data-id="${user.id}"
           >
-          <span class="todo-title">${user.nombre}</span>
+          <span class="todo-title">${user.name}</span>
           <span class="todo-title">${user.email}</span>
-          <span class="todo-title">${user.edad}</span>
-          <span class="todo-title">${user.ciudad}</span>
+          <span class="todo-title">${user.age}</span>
+          <span class="todo-title">${user.city}</span>
         </div>
         <div class="todo-actions">
           <button class="btn btn-edit" data-id="${user.id}">Editar</button>
@@ -473,16 +473,16 @@ async function initUsers() {
       const user = users.find((t) => t.id === id);
       if (!user) return;
 
-      const nuevoNombre = prompt("Editar nombre:", user.nombre);
+      const nuevoNombre = prompt("Editar nombre:", user.name);
       if (nuevoNombre === null) return;
 
       const nuevoEmail = prompt("Editar email:", user.email);
       if (nuevoEmail === null) return;
 
-      const nuevaEdad = prompt("Editar edad:", user.edad);
+      const nuevaEdad = prompt("Editar edad:", user.age);
       if (nuevaEdad === null) return;
 
-      const nuevaCiudad = prompt("Editar ciudad:", user.ciudad);
+      const nuevaCiudad = prompt("Editar ciudad:", user.city);
       if (nuevaCiudad === null) return;
 
       if (!nuevoNombre.trim() || !nuevoEmail.trim() || !nuevaEdad.trim() || !nuevaCiudad.trim()) {
@@ -495,10 +495,10 @@ async function initUsers() {
       try {
         const userActualizado = await updateUser(id, {
           ...user,
-          nombre: nuevoNombre.trim(),
+          name: nuevoNombre.trim(),
           email: nuevoEmail.trim(),
-          edad: nuevaEdad.trim(),
-          ciudad: nuevaCiudad.trim()
+          age: nuevaEdad.trim(),
+          city: nuevaCiudad.trim()
         });
         Object.assign(user, userActualizado);
         renderizarUsers();
